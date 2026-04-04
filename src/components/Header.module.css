@@ -1,0 +1,35 @@
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+height:56px;
+background:#1B8C3E;
+color:white;
+padding:0 20px;
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.menuBtn{
+font-size:20px;
+background:none;
+border:none;
+color:white;
+cursor:pointer;
+}
+
+.logo{
+font-size:20px;
+}
+
+.avatar{
+background:white;
+color:#1B8C3E;
+padding:6px 10px;
+border-radius:50%;
+font-weight:bold;
+}

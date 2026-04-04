@@ -1,0 +1,27 @@
+.sidebar{
+width:240px;
+background:white;
+border-right:1px solid #ddd;
+padding:20px;
+}
+
+.title{
+margin-bottom:20px;
+}
+
+.list{
+list-style:none;
+}
+
+.item{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:10px;
+}
+
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
+}
