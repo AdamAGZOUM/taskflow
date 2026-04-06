@@ -29,7 +29,16 @@ export default function Login() {
       } 
   
       const { password: _, ...user } = users[0]; 
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user }); 
+      // Après LOGIN_SUCCESS, créer un faux JWT : 
+      const fakeToken = btoa(JSON.stringify({ 
+        userId: user.id, 
+        email: user.email, 
+        role: 'admin', 
+        exp: Date.now() + 3600000  // expire dans 1h 
+      })); 
+      
+      // Stocker le token dans le state (PAS localStorage) : 
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { ...user, token: fakeToken } }); 
       navigate(from, { replace: true }); 
     } catch { 
       dispatch({ type: 'LOGIN_FAILURE', payload: 'Erreur de connexion au serveur' }); 

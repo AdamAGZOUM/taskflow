@@ -59,6 +59,9 @@ export default function Dashboard() {
 
   if (loading) return <div className={styles.loading}>Chargement...</div>;
 
+  // Dans Dashboard, ajoutez ce test temporaire :
+  const dangerousName = '<img src=x onerror=alert("HACK")>';
+
   return (
     <div className={styles.layout}>
       <Header
@@ -87,6 +90,11 @@ export default function Dashboard() {
             )}
           </div>
           {error && <div className={styles.error}>{error}</div>}
+          {/* Affichez-le dans le JSX : */}
+          <p>{dangerousName}</p>
+          {/* 
+          ❌ NE FAITES JAMAIS ÇA avec des données utilisateur : */}
+          <div dangerouslySetInnerHTML={{ __html: dangerousName }} />
           <MainContent columns={columns} />
         </div>
       </div>
