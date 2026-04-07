@@ -10,9 +10,11 @@ interface Project {
 interface SidebarProps {
   projects: Project[]
   isOpen: boolean
+  onRename?: (project: Project) => void
 }
 
-export default function Sidebar({ projects, isOpen }: SidebarProps) {
+export default function Sidebar({ projects, isOpen, onRename: _onRename }: SidebarProps) { // eslint-disable-line @typescript-eslint/no-unused-vars
+  console.log('Sidebar re-render');
   return (
     <aside className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}>
       <h2 className={styles.title}>Mes Projets</h2>

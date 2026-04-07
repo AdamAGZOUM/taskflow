@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 
 interface ProjectFormProps {
   submitLabel: string;
@@ -10,7 +10,7 @@ export default function ProjectForm({ submitLabel, onSubmit, onCancel }: Project
   const [name, setName] = useState('');
   const [color, setColor] = useState('#1B8C3E');
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     onSubmit(name, color);
     setName('');

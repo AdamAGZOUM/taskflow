@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "json-server --watch db.json --port 4000",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -14,11 +15,13 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.9",
     "@mui/material": "^7.3.9",
+    "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.14.0",
     "bootstrap": "^5.3.8",
     "react": "^19.2.4",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.4",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.14.0"
   },
   "devDependencies": {

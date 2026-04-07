@@ -1,61 +1,23 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../features/auth/AuthContext';
-import api from '../api/axios';
+import { useState, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../features/auth/authSlice';
+import type { RootState } from '../store';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import MainContent from '../components/MainContent';
 import ProjectForm from '../components/ProjectForm';
+import useProjects from '../hooks/useProjects';
 import styles from './Dashboard.module.css';
 
-interface Project { id: string; name: string; color: string; }
-interface Column { id: string; title: string; tasks: string[]; }
+const MemoizedSidebar = memo(Sidebar);
 
 export default function Dashboard() {
-  const { state: authState, dispatch } = useAuth();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { projects, columns, loading, error, addProject, renameProject } = useProjects();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [columns, setColumns] = useState<Column[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [projRes, colRes] = await Promise.all([
-          api.get('/projects'),
-          api.get('/columns'),
-        ]);
-        setProjects(projRes.data);
-        setColumns(colRes.data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
-  async function addProject(name: string, color: string) {
-    setSaving(true);
-    setError(null);
-
-    try {
-      const { data } = await api.post('/projects', { name, color });
-      setProjects(prev => [...prev, data]);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || `Erreur ${err.response?.status}`);
-      } else {
-        setError('Erreur inconnue');
-      }
-    } finally {
-      setSaving(false);
-    }
-  }
+  const saving = false;
 
   if (loading) return <div className={styles.loading}>Chargement...</div>;
 
@@ -67,11 +29,15 @@ export default function Dashboard() {
       <Header
         title="TaskFlow"
         onMenuClick={() => setSidebarOpen(p => !p)}
-        userName={authState.user?.name}
-        onLogout={() => dispatch({ type: 'LOGOUT' })}
+        userName={user?.name}
+        onLogout={() => dispatch(logout())}
       />
       <div className={styles.body}>
-        <Sidebar projects={projects} isOpen={sidebarOpen} />
+        <MemoizedSidebar
+          projects={projects}
+          isOpen={sidebarOpen}
+          onRename={renameProject}
+        />
         <div className={styles.content}>
           <div className={styles.toolbar}>
             {!showForm ? (
